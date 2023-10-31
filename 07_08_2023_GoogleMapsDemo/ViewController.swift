@@ -20,6 +20,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        googleMapView.delegate = self
         initializationOfGoogleMapView()
         setttingUpCameraPosition(position: punePosition)
         showMarker(position: punePosition)
@@ -30,6 +31,7 @@ class ViewController: UIViewController {
 //        GMSCameraUpdate.setTarget(
 //            punePosition,
 //            zoom: 30.0)
+        
     }
     
     func setttingUpCameraPosition(position : CLLocationCoordinate2D){
@@ -107,5 +109,61 @@ class ViewController: UIViewController {
 }
 
 extension ViewController : GMSMapViewDelegate{
+    func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
+        let infoWindow = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 160))
+        //infoWindow.backgroundColor = .cyan
+        let name = UILabel(frame: CGRect(
+            x: 40,
+            y: 40,
+            width: Int(infoWindow.frame.width) - 40,
+            height: 40))
+        name.text = "Bitcode"
+        name.textColor = .black
+        name.backgroundColor = UIColor(red: 50.0, green: 0.0, blue: 50.0, alpha: 0.4)
+        infoWindow.addSubview(name)
+        
+        let city = UILabel(frame: CGRect(
+            x: 40,
+            y: 100,
+            width: Int(name.frame.width),
+            height: 40))
+        city.text = "Pune"
+        city.textColor = .black
+        city.backgroundColor = UIColor(red: 50.0, green: 0.0, blue: 50.0, alpha: 0.4)
+        infoWindow.addSubview(city)
+        
+        return infoWindow
+    }
     
+    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
+        print(marker.position)
+    }
+    
+    func mapView(_ mapView: GMSMapView, didCloseInfoWindowOf marker: GMSMarker) {
+        print(marker.position)
+    }
+    
+    func mapView(_ mapView: GMSMapView, didLongPressInfoWindowOf marker: GMSMarker) {
+        print(marker.position)
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTapMyLocation location: CLLocationCoordinate2D) {
+        print(location)
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        return true
+    }
+    
+    func mapView(_ mapView: GMSMapView, didBeginDragging marker: GMSMarker) {
+        print("didBeginDragging \(marker.position)")
+    }
+    
+    func mapView(_ mapView: GMSMapView, didDrag marker: GMSMarker) {
+        print("didDrag \(marker.position)")
+    }
+    
+    func mapView(_ mapView: GMSMapView, didEndDragging marker: GMSMarker) {
+        print("didEndDragging \(marker.position)")
+    }
 }
